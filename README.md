@@ -1,4 +1,4 @@
-# Font-Interaction-Design_SHANG-2025
+# Typography Lab Project
 
 This project is a minimalist experiment in dynamic typography. The same input text can be rendered in two completely different visual systems depending on whether the characters are lowercase or uppercase.
 
