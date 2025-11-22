@@ -3,113 +3,350 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>UPPERCASE - SHANG</title>
-
-    <!-- Import Font from UPPERCASE.html -->
+    <title>SHANG LAB | 2025</title>
     <style>
+      /* IMPORT UPPERCASE FONT */
       @import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap");
 
-      :root {
-        /* Colors updated to White Background / Black Text */
+      /* GLOBAL RESET & TRANSITIONS */
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 80px 40px 40px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: "Courier New", monospace;
+        transition: background-color 0.5s ease, color 0.5s ease;
+        min-height: 100vh;
+      }
+
+      /* --- THEME VARIABLES --- */
+      body.lowercase {
+        --bg-color: #0a0a0a;
+        --stroke-color: #f0f0f0;
+        --accent-color: #00d2ff;
+        --stroke-width: 8px;
+        --size: 70px;
+        background-color: var(--bg-color);
+        color: #888;
+      }
+
+      body.uppercase {
         --bg-color: #ffffff;
         --stroke-color: #000000;
         --accent-color: #00d2ff;
         --card-bg-hover: #000000;
         --text-hover: #ffffff;
         --size: 70px;
-      }
-
-      body {
         background-color: var(--bg-color);
-        /* Font for UI elements (not the display font) */
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 40px;
         color: #333;
-        transition: background-color 0.3s, color 0.3s;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
       }
 
+      /* --- NAVIGATION --- */
+      .nav-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5px);
+        z-index: 100;
+        border-bottom: 1px solid transparent;
+        transition: background 0.3s, border-color 0.3s;
+      }
+
+      body.uppercase .nav-bar {
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid #eee;
+      }
+
+      .nav-btn {
+        background: transparent;
+        border: 1px solid;
+        padding: 8px 20px;
+        cursor: pointer;
+        font-family: inherit;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-size: 12px;
+        transition: all 0.3s;
+        opacity: 0.5;
+      }
+
+      .nav-btn:hover {
+        opacity: 1;
+      }
+
+      .nav-btn.active {
+        opacity: 1;
+        font-weight: bold;
+        background: var(--accent-color);
+        color: white;
+        border-color: var(--accent-color);
+      }
+
+      body.lowercase .nav-btn {
+        color: #f0f0f0;
+        border-color: #333;
+      }
+      body.uppercase .nav-btn {
+        color: #000;
+        border-color: #ccc;
+      }
+
+      /* --- DIAGRAM CONTAINERS --- */
+      .diagram-container {
+        position: fixed;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 250px;
+        height: 250px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+      }
+      
+      .diagram-box {
+        width: 100%;
+        height: 100%;
+        border: 1px dashed var(--stroke-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background: rgba(0,0,0,0.02);
+      }
+      
+      /* Crosshair Lines */
+      .diagram-box::before, .diagram-box::after {
+        content: '';
+        position: absolute;
+        background: var(--stroke-color);
+        opacity: 0.15;
+      }
+      .diagram-box::before { width: 100%; height: 1px; top: 50%; left: 0; }
+      .diagram-box::after { height: 100%; width: 1px; left: 50%; top: 0; }
+
+      #diagram-left {
+        left: 5%;
+        transform: translateY(-50%) translateX(-20px);
+      }
+      
+      #diagram-right {
+        right: 5%;
+        transform: translateY(-50%) translateX(20px);
+      }
+
+      .diagram-container.active {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
+      /* Lowercase Diagram Styling (SVG) */
+      .diagram-box svg {
+        width: 80%;
+        height: 80%;
+        overflow: visible;
+        display: block;
+      }
+      .diagram-box svg path, .diagram-box svg line {
+        stroke: var(--accent-color);
+        stroke-width: 4px;
+        filter: drop-shadow(0 0 10px var(--accent-color));
+      }
+
+      /* Uppercase Diagram Styling (Font) */
+      .diagram-box .tech-char {
+        font-size: 150px;
+        line-height: 0;
+        display: block;
+        transform-origin: center;
+        transform: scale(1.5, 0.8);
+        color: var(--accent-color);
+        text-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+        position: relative;
+        z-index: 2;
+      }
+
+      /* --- SHARED LAYOUT --- */
       h1 {
         color: var(--stroke-color);
         font-size: 16px;
         text-transform: uppercase;
         letter-spacing: 4px;
         margin-bottom: 50px;
+        opacity: 0.8;
+        text-align: center;
+      }
+
+      body.uppercase h1 {
         font-weight: bold;
         border-bottom: 2px solid var(--stroke-color);
         padding-bottom: 10px;
       }
 
-      /* GRID LAYOUT from LOWERCASE.html */
       .alphabet-grid {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
         gap: 25px;
         margin-bottom: 60px;
+        position: relative;
+        z-index: 20;
       }
 
       .char-card {
         width: var(--size);
         height: var(--size);
-        border: 1px solid #ddd; /* Lighter border for white mode */
         display: flex;
         justify-content: center;
-        align-items: center;
         transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
-        background: #f9f9f9;
-        overflow: hidden;
+        overflow: visible;
       }
 
       .char-card:hover {
         transform: translateY(-5px);
+      }
+
+      body.lowercase .char-card {
+        border-bottom: 1px solid #222;
+        align-items: flex-end;
+        padding-bottom: 10px;
+      }
+
+      body.uppercase .char-card {
+        border: 1px solid #ddd;
+        background: #f9f9f9;
+        align-items: center;
+        overflow: hidden;
+      }
+      body.uppercase .char-card:hover {
         background-color: var(--card-bg-hover);
         border-color: var(--card-bg-hover);
       }
 
-      /* THE FONT STYLE from UPPERCASE.html */
+      /* --- SVG LOGIC --- */
+      svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+      }
+
+      path,
+      line,
+      polyline {
+        fill: none;
+        stroke: var(--stroke-color);
+        stroke-width: var(--stroke-width);
+        stroke-linecap: square;
+        stroke-linejoin: bevel;
+        transition: stroke 0.3s ease;
+      }
+
+      .char-card:hover path,
+      .char-card:hover line {
+        stroke: var(--accent-color);
+        filter: drop-shadow(0 0 4px var(--accent-color));
+      }
+
       .tech-char {
         font-family: "Chakra Petch", sans-serif;
         font-weight: 700;
-        font-size: 40px; /* Adjusted to fit the card size */
+        font-size: 40px;
         color: var(--stroke-color);
-
-        /* The specific transform requested */
         transform: scale(1.5, 0.8);
-
-        /* Clean rendering */
         text-shadow: none;
         -webkit-font-smoothing: antialiased;
-        pointer-events: none; /* Let clicks pass to card */
+        pointer-events: none;
         transition: color 0.2s;
       }
 
-      .char-card:hover .tech-char {
+      body.uppercase .char-card:hover .tech-char {
         color: var(--text-hover);
       }
 
-      /* PLAYGROUND SECTION from LOWERCASE.html */
+      /* --- PLAYGROUND & SCROLL ICON --- */
       .playground {
         width: 100%;
         max-width: 800px;
-        border-top: 2px solid #eee;
-        padding-top: 40px;
+        border-top: 1px solid #222;
+        padding-top: 20px;
         text-align: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        z-index: 20;
       }
 
+      body.uppercase .playground {
+        border-top: 2px solid #eee;
+      }
+
+      .scroll-arrow-container {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 20px;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+        cursor: pointer;
+      }
+
+      .scroll-arrow-container.visible {
+        opacity: 0.6;
+        visibility: visible;
+        animation: bounce 2s infinite;
+      }
+
+      .scroll-arrow-container svg path {
+        stroke-width: 4px;
+        stroke: var(--stroke-color);
+      }
+
+      .scroll-arrow-container:hover {
+        opacity: 1 !important;
+      }
+
+      @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-10px); }
+        60% { transform: translateY(-5px); }
+      }
+
+      /* --- INPUTS --- */
       .input-display {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         align-items: flex-end;
-        gap: 10px; /* Slightly more gap for the wide font */
+        gap: 4px;
         min-height: 80px;
         margin-bottom: 20px;
+        width: 100%;
       }
 
-      /* Container for typed letters */
-      .input-display div {
+      body.uppercase .input-display {
+        gap: 10px;
+      }
+
+      .input-display.lowercase-mode div {
+        width: 40px;
+        height: 60px;
+      }
+      .input-display.uppercase-mode div {
         width: 50px;
         height: 60px;
         display: flex;
@@ -120,7 +357,7 @@
       input {
         background: transparent;
         border: none;
-        border-bottom: 2px solid #ccc;
+        border-bottom: 2px solid #333;
         color: var(--stroke-color);
         font-size: 24px;
         text-align: center;
@@ -129,65 +366,327 @@
         font-family: monospace;
         width: 300px;
         transition: border-color 0.3s;
+      }
+
+      body.uppercase input {
+        border-bottom: 2px solid #ccc;
         text-transform: uppercase;
       }
 
       input:focus {
+        border-color: var(--accent-color);
+      }
+
+      body.uppercase input:focus {
         border-color: var(--stroke-color);
+      }
+
+      /* Character Limit Counter Styles */
+      .char-counter {
+        margin-top: 10px;
+        font-size: 12px;
+        color: var(--stroke-color);
+        opacity: 0.5;
+        font-family: monospace;
+        letter-spacing: 1px;
+      }
+
+      /* --- FLOATING TOOLTIP --- */
+      .scroll-tooltip {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background-color: var(--accent-color);
+        color: #fff;
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 50;
+        cursor: pointer;
+      }
+
+      .scroll-tooltip.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+        pointer-events: auto;
+      }
+
+      .scroll-tooltip:hover {
+        transform: translateX(-50%) scale(1.05);
       }
     </style>
   </head>
-  <body>
-    <h1>UPPERCASE LAB | SHANG 2025</h1>
+  <body class="lowercase">
+    
+    <!-- Navigation -->
+    <nav class="nav-bar">
+      <button class="nav-btn active" id="btn-lower">Lowercase</button>
+      <button class="nav-btn" id="btn-upper">Uppercase</button>
+    </nav>
+
+    <!-- Structure Diagrams -->
+    <div id="diagram-left" class="diagram-container">
+      <div class="diagram-box" id="diagram-content-left"></div>
+    </div>
+    <div id="diagram-right" class="diagram-container">
+      <div class="diagram-box" id="diagram-content-right"></div>
+    </div>
+
+    <h1 id="main-title">lowercase lab | SHANG 2025</h1>
 
     <div class="alphabet-grid" id="grid"></div>
 
-    <div class="playground">
-      <div class="input-display" id="display"></div>
+    <div class="playground" id="playground-area">
+      <!-- Dynamic Scroll/Type Icon -->
+      <div class="scroll-arrow-container visible" id="scroll-arrow">
+        <svg viewBox="0 0 50 50">
+          <path d="M10 15 L25 35 L40 15" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+        </svg>
+      </div>
+
+      <div class="input-display lowercase-mode" id="display"></div>
+      
+      <!-- Input with increased limit -->
       <input
         type="text"
         id="texter"
         placeholder="TYPE HERE"
-        maxlength="20"
+        maxlength="100"
         autocomplete="off"
       />
+      <!-- Character Limit Indicator -->
+      <div class="char-counter" id="char-counter">0 / 100</div>
+    </div>
+
+    <!-- Dynamic Bottom Tooltip -->
+    <div class="scroll-tooltip" id="tooltip">
+      Scroll to Type ↓
     </div>
 
     <script>
-      // We simply generate A-Z since we are using a Web Font now
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+      /* --- DATA --- */
+      const lowerAlphabet = {
+        a: '<path d="M20 45 H80 V90 H20 V65 H80" />',
+        b: '<path d="M20 10 V90 H80 V55 H20" />',
+        c: '<path d="M80 45 H20 V90 H80" />',
+        d: '<path d="M80 10 V90 H20 V55 H80" />',
+        e: '<path d="M80 90 H20 V45 H80 M20 68 H70" />',
+        f: '<path d="M30 90 V10 H80 M20 45 H70" />',
+        g: '<path d="M80 45 H20 V90 H80 V70 H60" />',
+        h: '<path d="M20 10 V90 M20 55 H80 V90" />',
+        i: '<path d="M50 45 V90 M50 15 V25" />',
+        j: '<path d="M60 45 V80 L50 90 H40 M60 15 V25" />',
+        k: '<path d="M20 10 V90 M80 45 L20 68 L80 90" />',
+        l: '<path d="M30 10 V90 H80" />',
+        m: '<path d="M20 90 V45 H50 V90 M50 45 H80 V90" />',
+        n: '<path d="M20 45 V90 M20 45 H80 V90" />',
+        o: '<path d="M20 45 H80 V90 H20 V45" />',
+        p: '<path d="M20 90 V10 M20 25 H80 V55 H20" />',
+        q: '<path d="M80 90 V10 M80 25 H20 V55 H80" />',
+        r: '<path d="M20 45 V90 M20 55 H80" />',
+        s: '<path d="M80 45 H20 V68 H80 V90 H20" />',
+        t: '<path d="M50 10 V90 H80 M20 45 H80" />',
+        u: '<path d="M20 45 V90 H80 V45" />',
+        v: '<path d="M20 45 L50 90 L80 45" />',
+        w: '<path d="M20 45 L35 90 L50 60 L65 90 L80 45" />',
+        x: '<path d="M20 45 L80 90 M80 45 L20 90" />',
+        y: '<path d="M20 45 V75 H80 V45 M50 75 V90" />',
+        z: '<path d="M20 45 H80 L20 90 H80" />',
+      };
+
+      const upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+      /* --- STATE & ELEMENTS --- */
+      let currentMode = "lowercase"; 
+
+      const body = document.body;
       const grid = document.getElementById("grid");
       const input = document.getElementById("texter");
       const display = document.getElementById("display");
+      const title = document.getElementById("main-title");
+      const btnLower = document.getElementById("btn-lower");
+      const btnUpper = document.getElementById("btn-upper");
+      const tooltip = document.getElementById("tooltip");
+      const playground = document.getElementById("playground-area");
+      const scrollArrow = document.getElementById("scroll-arrow");
+      const charCounter = document.getElementById("char-counter");
+      
+      const diagramLeft = document.getElementById("diagram-left");
+      const diagramRight = document.getElementById("diagram-right");
+      const contentLeft = document.getElementById("diagram-content-left");
+      const contentRight = document.getElementById("diagram-content-right");
 
-      // Render Grid
-      chars.forEach((char) => {
-        const card = document.createElement("div");
-        card.className = "char-card";
-        // Using the class 'tech-char' to apply the UPPERCASE style logic
-        card.innerHTML = `<span class="tech-char">${char}</span>`;
-        grid.appendChild(card);
+      /* --- INITIALIZATION --- */
+      function init() {
+        renderGrid();
+        setupTooltip();
+      }
+
+      /* --- RENDER LOGIC --- */
+      function renderGrid() {
+        grid.innerHTML = "";
+        display.innerHTML = "";
+        input.value = "";
+        charCounter.innerText = "0 / 100";
+        scrollArrow.classList.add('visible');
+
+        if (currentMode === "lowercase") {
+          body.className = "lowercase";
+          title.innerText = "lowercase lab | SHANG 2025";
+          display.className = "input-display lowercase-mode";
+          btnLower.classList.add("active");
+          btnUpper.classList.remove("active");
+
+          Object.keys(lowerAlphabet).forEach((key, index) => {
+            const card = document.createElement("div");
+            card.className = "char-card";
+            card.innerHTML = `<svg viewBox="0 0 100 100">${lowerAlphabet[key]}</svg>`;
+            addDiagramHover(card, key, index, 'lower');
+            grid.appendChild(card);
+          });
+        } else {
+          body.className = "uppercase";
+          title.innerText = "UPPERCASE LAB | SHANG 2025";
+          display.className = "input-display uppercase-mode";
+          btnUpper.classList.add("active");
+          btnLower.classList.remove("active");
+
+          upperChars.forEach((char, index) => {
+            const card = document.createElement("div");
+            card.className = "char-card";
+            card.innerHTML = `<span class="tech-char">${char}</span>`;
+            addDiagramHover(card, char, index, 'upper');
+            grid.appendChild(card);
+          });
+        }
+      }
+
+      /* --- DIAGRAM HOVER --- */
+      function addDiagramHover(element, charData, index, type) {
+        const colIndex = index % 6;
+        const isLeft = colIndex < 3;
+
+        element.addEventListener('mouseenter', () => {
+          const targetContent = isLeft ? contentLeft : contentRight;
+          
+          if (type === 'lower') {
+             targetContent.innerHTML = `<svg viewBox="0 0 100 100">${lowerAlphabet[charData]}</svg>`;
+          } else {
+             targetContent.innerHTML = `<span class="tech-char">${charData}</span>`;
+          }
+
+          if(isLeft) {
+            diagramLeft.classList.add('active');
+            diagramRight.classList.remove('active');
+          } else {
+            diagramRight.classList.add('active');
+            diagramLeft.classList.remove('active');
+          }
+        });
+
+        element.addEventListener('mouseleave', () => {
+          diagramLeft.classList.remove('active');
+          diagramRight.classList.remove('active');
+        });
+      }
+
+      /* --- EVENT LISTENERS --- */
+      btnLower.addEventListener("click", () => {
+        if (currentMode !== "lowercase") {
+          currentMode = "lowercase";
+          renderGrid();
+        }
       });
 
-      // Interactive Typer
+      btnUpper.addEventListener("click", () => {
+        if (currentMode !== "uppercase") {
+          currentMode = "uppercase";
+          renderGrid();
+        }
+      });
+
+      scrollArrow.addEventListener("click", () => {
+        input.focus();
+      });
+
       input.addEventListener("input", (e) => {
-        // Force Uppercase
-        const val = e.target.value.toUpperCase();
+        const val = e.target.value;
+        const count = val.length;
+        
+        // Update Counter
+        charCounter.innerText = `${count} / 100`;
+
+        if (count > 0) {
+            scrollArrow.classList.remove('visible');
+        } else {
+            scrollArrow.classList.add('visible');
+        }
+
         display.innerHTML = "";
 
-        for (let char of val) {
-          if (char === " ") {
-            const space = document.createElement("div");
-            space.style.width = "30px";
-            display.appendChild(space);
-          } else {
-            const div = document.createElement("div");
-            // Apply the same font class to the typed text
-            div.innerHTML = `<span class="tech-char">${char}</span>`;
-            display.appendChild(div);
+        if (currentMode === "lowercase") {
+          const cleanVal = val.toLowerCase();
+          for (let char of cleanVal) {
+            if (lowerAlphabet[char]) {
+              const div = document.createElement("div");
+              div.innerHTML = `<svg viewBox="0 0 100 100">${lowerAlphabet[char]}</svg>`;
+              display.appendChild(div);
+            } else if (char === " ") {
+              const space = document.createElement("div");
+              space.style.width = "20px";
+              display.appendChild(space);
+            }
+          }
+        } else {
+          const cleanVal = val.toUpperCase();
+          for (let char of cleanVal) {
+            if (char === " ") {
+              const space = document.createElement("div");
+              space.style.width = "30px";
+              display.appendChild(space);
+            } else {
+              const div = document.createElement("div");
+              div.innerHTML = `<span class="tech-char">${char}</span>`;
+              display.appendChild(div);
+            }
           }
         }
       });
+
+      /* --- TOOLTIP --- */
+      function setupTooltip() {
+        tooltip.addEventListener("click", () => {
+          playground.scrollIntoView({ behavior: "smooth" });
+          input.focus();
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                tooltip.classList.remove("visible");
+              } else {
+                tooltip.classList.add("visible");
+              }
+            });
+          },
+          {
+            threshold: 0.5,
+          }
+        );
+
+        observer.observe(playground);
+      }
+
+      init();
     </script>
   </body>
 </html>
