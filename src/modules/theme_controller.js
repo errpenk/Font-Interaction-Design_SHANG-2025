@@ -1,3 +1,6 @@
+//responsible for switching themes and titles
+//not involved in specific grid logic
+
 import { appState } from '../core/StateManager';
 
 export class ThemeController {
