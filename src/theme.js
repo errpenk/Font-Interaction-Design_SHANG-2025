@@ -1,3 +1,4 @@
+
 import { MODE, TITLES, ELEMENTS, lowerAlphabet, upperChars } from './constants.js';
 import { addDiagramHover } from './diagram.js';
 
