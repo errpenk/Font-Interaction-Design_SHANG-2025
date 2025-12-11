@@ -1,0 +1,41 @@
+.alphabet-grid {
+  display: grid; grid-template-columns: repeat(6, 1fr); gap: 25px;
+  margin-bottom: 60px; position: relative; z-index: 20;
+}
+
+.char-card {
+  width: 70px; height: 70px; display: flex; justify-content: center;
+  transition: transform 0.2s, background-color 0.2s, border-color 0.2s;
+  overflow: visible;
+
+  &:hover { 
+    transform: translateY(-5px);
+    path, line { stroke: var(--accent-color); filter: drop-shadow(0 0 4px var(--accent-color)); }
+  }
+}
+
+// Mode Specifics handled by nesting inside body classes
+body.lowercase .char-card {
+  border-bottom: 1px solid #222; align-items: flex-end; padding-bottom: 10px;
+}
+
+body.uppercase .char-card {
+  border: 1px solid #ddd; background: #f9f9f9; align-items: center; overflow: hidden;
+  &:hover {
+    background-color: var(--card-bg-hover);
+    border-color: var(--card-bg-hover);
+    .tech-char { color: var(--text-hover); }
+  }
+}
+
+svg { width: 100%; height: 100%; overflow: visible; }
+path, line {
+  fill: none; stroke: var(--stroke-color); stroke-width: 8px;
+  stroke-linecap: square; stroke-linejoin: bevel; transition: stroke 0.3s ease;
+}
+
+.tech-char {
+  font-family: 'Chakra Petch', sans-serif; font-weight: 700; font-size: 40px;
+  color: var(--stroke-color); transform: scale(1.5, 0.8);
+  pointer-events: none; transition: color 0.2s;
+}
