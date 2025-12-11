@@ -60,3 +60,28 @@ function init() {
 
 // 启动应用
 init();
+
+
+
+
+
+
+#import './styles/main.scss'; // Vite 会自动处理这个 SCSS
+#import { Navigation } from './modules/Navigation.js';
+#import { Grid } from './modules/Grid.js';
+#import { InputBox } from './modules/InputBox.js';
+#import { Diagram } from './modules/Diagram.js';
+#import { appState } from './core/state.js';
+
+#document.addEventListener('DOMContentLoaded', () => {
+#初始化各个模块
+#  new Navigation();
+#  new Grid('grid');
+#  new InputBox('texter', 'display', 'counter');
+#  new Diagram();
+
+#设置初始状态
+#  appState.setMode('lowercase');
+  
+#  console.log('SHANG LAB 2025 Initialized.');
+});
