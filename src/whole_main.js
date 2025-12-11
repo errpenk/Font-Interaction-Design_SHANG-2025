@@ -36,6 +36,8 @@ function setupTooltip() {
  */
 
 
+/*
+
 /**
  * 设置所有主要的事件监听器
  */
@@ -69,7 +71,7 @@ function init() {
 
 // 启动应用
 init();
-
+*/
 
 
 
