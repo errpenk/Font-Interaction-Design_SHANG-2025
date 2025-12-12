@@ -13,8 +13,8 @@ This project is a minimalist experiment in dynamic typography. The same input te
 
 **Typography Lab Project** is a digital type specimen that functions as a dual-state application. It explores two distinct visual identities:
 
-1.  **LOWERCASE (Schematic Mode):** Dark themed, architectural, SVG-path based. It treats letters as blueprints.
-2.  **UPPERCASE (Industrial Mode):** Light themed, bold, the variation of Chakra Petch (bold/debt). It treats letters as finished products.
+1.  **LOWERCASE (Schematic Mode):** Dark themed, architectural, SVG-path based.
+2.  **UPPERCASE (Industrial Mode):** Light themed, bold, the variation of Chakra Petch (bold/debt).
 
 The project demonstrates how to manage complex state transitions and high-performance DOM manipulation using modern, vanilla JavaScript architecture.
 
