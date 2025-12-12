@@ -1,0 +1,6 @@
+.alphabet-grid {
+  display: grid;
+  /* 最小宽度设为 70px (var(--size))，空间不够自动换行，空间够了自动平铺 */
+  grid-template-columns: repeat(auto-fill, minmax(var(--size), 1fr)); 
+  gap: 25px;
+}
